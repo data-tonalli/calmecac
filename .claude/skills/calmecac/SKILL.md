@@ -39,7 +39,7 @@ Each phase has a human checkpoint. The human reviews, gives feedback or approves
 On first invocation:
 
 1. Greet the human briefly. Explain that CALMECAC will guide them through six phases of structured thinking to produce a ready-to-execute task list.
-2. Ask for the **project location** — an absolute path where the project will live (e.g., `/Users/you/dev/myapp`). This is where implementation code will be written. Wait for a confirmed absolute path before proceeding.
+2. Ask for the **project location** — an absolute path where the project will live. Suggest the current working directory as the default (e.g., "Where should the implementation code live? Default: `{cwd}`"). If the user accepts the default, use the current working directory. Wait for a confirmed path before proceeding.
 3. Ask for a short **task name** (used for the workspace folder). Examples: "auth-redesign", "data-pipeline", "hipaa-logging".
 4. Create the workspace directory at `{project-location}/calmecac-{task-name}/` with this structure:
 
@@ -180,11 +180,14 @@ Boundary conditions are FROZEN after Socrates. They describe the world as it is,
 
 ## Completion
 
-When the human approves Phase 6, the Calmecac is complete. Announce completion and provide the path to the task file:
+When the human approves Phase 6, the Calmecac is complete.
+
+1. Write the absolute workspace path to `{project-location}/.calmecac-last` so Ralph can find it automatically.
+2. Announce completion:
 
 > The Calmecac is complete. Your task list is ready at `{project-location}/calmecac-{task-name}/06-alkhwarizmi/tasks.jsonl`.
 >
-> To build the project, run Ralph:
+> To build the project, run:
 > ```
-> ./ralph/run.sh {project-location}/calmecac-{task-name}
+> just ralph <model> <effort>
 > ```

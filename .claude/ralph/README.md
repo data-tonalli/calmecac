@@ -19,7 +19,7 @@ Ralph is a loop-based autonomous agent that executes Calmecac workspaces. Each i
 ## Directory Layout
 
 ```
-ralph/
+.claude/ralph/
 ├── run.sh                 # Loop orchestrator
 ├── PROMPT.md              # Agent system prompt
 ├── README.md              # This file
@@ -30,20 +30,27 @@ ralph/
 
 ## Usage
 
+Via Justfile (recommended):
 ```bash
-./ralph/run.sh path/to/calmecac-workspace [model] [effort]
+just ralph <model> <effort>
 ```
 
-| Arg | Default | Options |
-|-----|---------|---------|
-| workspace | (required) | Path to a Calmecac workspace directory |
-| model | `sonnet` | `sonnet`, `opus`, `haiku`, or full model ID |
-| effort | `high` | `low`, `medium`, `high` |
+Or directly:
+```bash
+.claude/ralph/run.sh path/to/calmecac-workspace <model> <effort>
+```
+
+| Arg | Options |
+|-----|---------|
+| workspace | Path to a Calmecac workspace directory |
+| model | `sonnet`, `opus`, `haiku`, or full model ID |
+| effort | `low`, `medium`, `high` |
 
 **Example:**
 
 ```bash
-./ralph/run.sh /Users/me/dev/myapp/calmecac-auth sonnet high
+just ralph sonnet high
+.claude/ralph/run.sh /Users/me/dev/myapp/calmecac-auth sonnet high
 ```
 
 ## What Ralph Reads

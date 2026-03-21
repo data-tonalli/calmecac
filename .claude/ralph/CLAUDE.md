@@ -12,8 +12,8 @@ Ralph is a loop-based autonomous agent that executes task lists produced by Calm
 
 | Step | What | Produces |
 |------|------|----------|
-| 1 | User runs `/calmecac` | `{project}/calmecac-{name}/` workspace with specs, requirements, tests, tasks |
-| 2 | User runs `ralph/run.sh` | Implementation code at `{project}/`, one git commit per task |
+| 1 | `just calmecac <model> <effort>` | `{project}/calmecac-{name}/` workspace with specs, requirements, tests, tasks |
+| 2 | `just ralph <model> <effort>` | Implementation code at `{project}/`, one git commit per task |
 
 ## Calmecac workspace structure (Ralph's input)
 
@@ -37,11 +37,16 @@ Ralph is a loop-based autonomous agent that executes task lists produced by Calm
 ## Invocation
 
 ```bash
-./ralph/run.sh {project}/calmecac-{name} [model] [effort]
+just ralph <model> <effort>
 ```
 
-- **model**: `sonnet` (default), `opus`, `haiku`, or full model ID
-- **effort**: `low`, `medium`, `high` (default)
+Or directly:
+```bash
+.claude/ralph/run.sh {project}/calmecac-{name} <model> <effort>
+```
+
+- **model**: `sonnet`, `opus`, `haiku`, or full model ID
+- **effort**: `low`, `medium`, `high`
 
 ## Task JSONL schema
 

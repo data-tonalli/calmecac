@@ -6,3 +6,4 @@ ralph/logs/
 
 # Calmecac workspaces (user-generated, not part of template)
 calmecac-*/
+.calmecac-last
