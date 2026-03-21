@@ -11,8 +11,13 @@ if [[ $# -lt 1 ]]; then
   exit 1
 fi
 
-WORKSPACE_DIR="$1"
+WORKSPACE_DIR="$(cd "$1" && pwd)"
 PROMPT_FILE="$(dirname "$0")/PROMPT.md"
+
+# Project directory is the parent of the workspace
+PROJECT_DIR="$(dirname "$WORKSPACE_DIR")"
+git -C "$PROJECT_DIR" rev-parse --git-dir >/dev/null 2>&1 \
+  || { echo "ERROR: project directory is not a git repo: $PROJECT_DIR"; exit 1; }
 
 # Calmecac workspace convention: files live in phase subdirectories
 TASKS_FILE="${WORKSPACE_DIR}/06-alkhwarizmi/tasks.jsonl"
@@ -87,7 +92,8 @@ while (( run <= MAX_RUNS )); do
     "$PROMPT_FILE")
 
   LOG_FILE="${LOG_DIR}/ralph_run_${run}.log"
-  echo "$RENDERED_PROMPT" | claude -p --model "$MODEL" --dangerously-skip-permissions --verbose 2>&1 | tee "$LOG_FILE"
+  # Run claude from the project directory so git operations happen in the right repo
+  echo "$RENDERED_PROMPT" | (cd "$PROJECT_DIR" && claude -p --model "$MODEL" --dangerously-skip-permissions --verbose) 2>&1 | tee "$LOG_FILE"
 
   echo "=== Completed run #$run ==="
   (( run++ ))

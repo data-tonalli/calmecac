@@ -40,8 +40,12 @@ On first invocation:
 
 1. Greet the human briefly. Explain that CALMECAC will guide them through six phases of structured thinking to produce a ready-to-execute task list.
 2. Ask for the **project location** — an absolute path where the project will live. Suggest the current working directory as the default (e.g., "Where should the implementation code live? Default: `{cwd}`"). If the user accepts the default, use the current working directory. Wait for a confirmed path before proceeding.
-3. Ask for a short **task name** (used for the workspace folder). Examples: "auth-redesign", "data-pipeline", "hipaa-logging".
-4. Create the workspace directory at `{project-location}/calmecac-{task-name}/` with this structure:
+3. **Verify the project location** silently. Do not ask questions if everything is already in order:
+   - If the directory exists and is a git repo → proceed to step 4.
+   - If the directory exists but is NOT a git repo → ask: "This directory is not a git repository. Shall I initialize one with `git init`?" If yes, run `git init`. If no, stop with: "A git repository is required. Please initialize one and restart."
+   - If the directory does NOT exist → ask: "This directory doesn't exist. Shall I create it and initialize a git repository?" If yes, create the directory and run `git init`. If no, stop with: "A valid project directory is required. Please create one and restart."
+4. Ask for a short **task name** (used for the workspace folder). Examples: "auth-redesign", "data-pipeline", "hipaa-logging".
+5. Create the workspace directory at `{project-location}/calmecac-{task-name}/` with this structure:
 
 ```
 {project-location}/
@@ -56,7 +60,7 @@ On first invocation:
     └── 06-alkhwarizmi/
 ```
 
-5. Capture the user's initial idea/context and write it to `context/user-input.md`. Include the confirmed project location at the top of the file:
+6. Capture the user's initial idea/context and write it to `context/user-input.md`. Include the confirmed project location at the top of the file:
 
 ```markdown
 ## Project Location
@@ -66,7 +70,7 @@ On first invocation:
 {user's initial idea/context}
 ```
 
-6. Read `agents/01-socrates.md` and begin Phase 1. Socrates will record the project location as BC-001 — do not ask for it again.
+7. Read `agents/01-socrates.md` and begin Phase 1. Socrates will record the project location as BC-001 — do not ask for it again.
 
 ---
 

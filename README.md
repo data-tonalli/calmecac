@@ -34,8 +34,14 @@ Ralph reads the workspace Calmecac produced and builds the project autonomously.
 1. Click **"Use this template"** on GitHub
 2. Clone your new repo
 3. Install [just](https://github.com/casey/just) and [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code)
-4. Run `just calmecac sonnet high`
-5. When planning is done, run `just ralph sonnet high`
+4. Create your project directory and initialize git (or have an existing one):
+   ```bash
+   mkdir -p ~/dev/myproject && cd ~/dev/myproject && git init
+   ```
+5. Run `just calmecac sonnet high` — Calmecac will ask for the project location
+6. When planning is done, run `just ralph sonnet high`
+
+**Note:** The project location must be a separate directory with a git repository. Calmecac will verify this and offer to set it up if needed.
 
 ## What's Inside
 
