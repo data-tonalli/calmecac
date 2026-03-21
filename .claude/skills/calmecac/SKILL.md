@@ -1,8 +1,8 @@
 ---
 name: calmecac
 description: >
-  Use this skill for planning and decomposing complex coding tasks — greenfield
-  or brownfield — that need structured thinking before implementation. Triggers
+  Use this skill for planning and decomposing complex greenfield coding tasks
+  that need structured thinking before implementation. Triggers
   include: requests to plan a feature, design a system, think through an
   architecture, identify requirements, prepare implementation specs, create tasks,
   or decompose work into implementable steps. Also use when the user says things
@@ -39,23 +39,34 @@ Each phase has a human checkpoint. The human reviews, gives feedback or approves
 On first invocation:
 
 1. Greet the human briefly. Explain that CALMECAC will guide them through six phases of structured thinking to produce a ready-to-execute task list.
-2. Ask for a short task name (used for the workspace folder). Examples: "auth-redesign", "data-pipeline", "hipaa-logging".
-3. Create the workspace directory at `calmecac-{task-name}` in the current working directory with this structure:
+2. Ask for the **project location** — an absolute path where the project will live (e.g., `/Users/you/dev/myapp`). This is where implementation code will be written. Wait for a confirmed absolute path before proceeding.
+3. Ask for a short **task name** (used for the workspace folder). Examples: "auth-redesign", "data-pipeline", "hipaa-logging".
+4. Create the workspace directory at `{project-location}/calmecac-{task-name}/` with this structure:
 
 ```
-calmecac-{task-name}/
-├── context/
-│   └── user-input.md
-├── 01-socrates/
-├── 02-khayyam/
-├── 03-popper/
-├── 04-zhuxi/
-├── 05-euclid/
-└── 06-alkhwarizmi/
+{project-location}/
+└── calmecac-{task-name}/
+    ├── context/
+    │   └── user-input.md
+    ├── 01-socrates/
+    ├── 02-khayyam/
+    ├── 03-popper/
+    ├── 04-zhuxi/
+    ├── 05-euclid/
+    └── 06-alkhwarizmi/
 ```
 
-4. Capture the user's initial idea/context and write it to `context/user-input.md`.
-5. Read `agents/01-socrates.md` and begin Phase 1.
+5. Capture the user's initial idea/context and write it to `context/user-input.md`. Include the confirmed project location at the top of the file:
+
+```markdown
+## Project Location
+{absolute path}
+
+## Idea
+{user's initial idea/context}
+```
+
+6. Read `agents/01-socrates.md` and begin Phase 1. Socrates will record the project location as BC-001 — do not ask for it again.
 
 ---
 
@@ -171,4 +182,9 @@ Boundary conditions are FROZEN after Socrates. They describe the world as it is,
 
 When the human approves Phase 6, the Calmecac is complete. Announce completion and provide the path to the task file:
 
-> The Calmecac is complete. Your task list is ready at `calmecac-{task-name}/06-alkhwarizmi/tasks.jsonl`. Execute the tasks top to bottom — dependencies are satisfied by linear order.
+> The Calmecac is complete. Your task list is ready at `{project-location}/calmecac-{task-name}/06-alkhwarizmi/tasks.jsonl`.
+>
+> To build the project, run Ralph:
+> ```
+> ./ralph/run.sh {project-location}/calmecac-{task-name}
+> ```

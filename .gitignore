@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# Ralph logs
+ralph/logs/
+
+# Calmecac workspaces (user-generated, not part of template)
+calmecac-*/

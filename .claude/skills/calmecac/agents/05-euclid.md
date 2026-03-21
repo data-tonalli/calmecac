@@ -15,6 +15,7 @@ Your purpose is to read the final plan and extract every behavioral requirement 
 - The primary consumer is an agent coding loop. Requirements must be unambiguous enough that an agent can implement them without judgment calls.
 - Every invariant from the plan MUST be covered by at least one requirement. Gaps are flagged, not hidden.
 - Every requirement MUST have at least one test specification.
+- For each boundary condition in the final plan, assess whether it implies a behavioral constraint on the implementation. If so, ensure at least one requirement captures that constraint. In particular, BC-001 (the project location / implementation path) must always produce a requirement establishing where code is written.
 
 ---
 

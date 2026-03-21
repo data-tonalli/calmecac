@@ -38,13 +38,14 @@ For each requirement:
 
 ---
 
-## Ordering Strategy
+## Ordering and Dependency Strategy
 
 1. Identify which tasks produce things other tasks need (types, interfaces, schemas, config).
 2. Place foundation tasks first.
 3. For tasks at the same level, prioritize by impact: tasks that unblock the most others come first.
 4. Place implementation tasks immediately followed by their verification tasks.
-5. Verify: reading top to bottom, every task's dependencies are satisfied by tasks above it.
+5. For each task, populate `deps` with the TASK-XXX IDs of tasks that must complete before it can start. A task with `deps: []` has no prerequisites.
+6. Verify: reading top to bottom, every task's `deps` reference only tasks that appear above it.
 
 ---
 
@@ -81,6 +82,7 @@ Each line in the JSONL file is a single JSON object representing one atomic task
   "id": "TASK-001",
   "title": "Short descriptive title",
   "requirement": "REQ-003",
+  "deps": [],
   "description": "Precise description of what to implement. Specific enough that an agent can begin immediately without interpretation.",
   "done_when": "Mechanically verifiable condition — what must be true when this task is complete.",
   "tests": ["TEST-001", "TEST-004"],
@@ -96,17 +98,18 @@ Each line in the JSONL file is a single JSON object representing one atomic task
 | `id` | string | yes | TASK-001, TASK-002, etc. Sequential. |
 | `title` | string | yes | Short descriptive title. Understandable without reading description. |
 | `requirement`| string | yes | REQ-XXX this task serves. Every task traces to exactly one requirement.|
+| `deps` | array | yes | TASK-XXX IDs this task depends on. Empty array if none. All deps must be completed before this task can start. |
 | `description`| string | yes | Precise description. Agent can begin immediately with no ambiguity. |
 | `done_when` | string | yes | Mechanically verifiable. Not "looks correct" but "TEST-004 passes". |
 | `tests` | array | yes | TEST-XXX references. Every task must reference at least one test. |
 | `invariants` | array | no | INV-XXX IDs this task directly protects. Empty array if none. |
-| `status` | string | yes | Always "pending" when produced. Coding loop changes to "done". |
+| `status` | string | yes | Always "pending" when produced. Coding loop changes to "completed". |
 
 ### Example
 
 ```jsonl
-{"id": "TASK-001", "title": "Define user input schema", "requirement": "REQ-001", "description": "Create the TypeScript type definition for the user creation payload. Fields: email (string, required), name (string, required, max 255 chars), role (enum: admin|user|viewer, required). Export as UserCreateInput from src/types/user.ts.", "done_when": "UserCreateInput type exists and is importable. TEST-001 passes.", "tests": ["TEST-001"], "invariants": [], "status": "pending"}
-{"id": "TASK-002", "title": "Implement input validation for user creation", "requirement": "REQ-001", "description": "Create a validation function that accepts a UserCreateInput and returns either a validated payload or a structured error listing all invalid fields. Reject if: email missing or fails RFC 5322, name exceeds 255 chars, role not in enum. Return all errors at once.", "done_when": "Validation function exists and TEST-002, TEST-003 pass.", "tests": ["TEST-002", "TEST-003"], "invariants": ["INV-003"], "status": "pending"}
+{"id": "TASK-001", "title": "Define user input schema", "requirement": "REQ-001", "deps": [], "description": "Create the TypeScript type definition for the user creation payload. Fields: email (string, required), name (string, required, max 255 chars), role (enum: admin|user|viewer, required). Export as UserCreateInput from src/types/user.ts.", "done_when": "UserCreateInput type exists and is importable. TEST-001 passes.", "tests": ["TEST-001"], "invariants": [], "status": "pending"}
+{"id": "TASK-002", "title": "Implement input validation for user creation", "requirement": "REQ-001", "deps": ["TASK-001"], "description": "Create a validation function that accepts a UserCreateInput and returns either a validated payload or a structured error listing all invalid fields. Reject if: email missing or fails RFC 5322, name exceeds 255 chars, role not in enum. Return all errors at once.", "done_when": "Validation function exists and TEST-002, TEST-003 pass.", "tests": ["TEST-002", "TEST-003"], "invariants": ["INV-003"], "status": "pending"}
 ```
 
 ---
