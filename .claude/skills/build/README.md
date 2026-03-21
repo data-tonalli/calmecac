@@ -1,43 +1,43 @@
-# Ralph — Autonomous Task Loop
+# Vera — Autonomous Task Loop
 
-Ralph is a loop-based autonomous agent that executes Calmecac workspaces. Each invocation picks the highest-impact ready task, implements it, runs tests, commits, and exits. The shell runner (`run.sh`) re-invokes until all tasks are done or progress stalls.
+Vera is a loop-based autonomous agent that executes Calmecac workspaces. Each invocation picks the highest-impact ready task, implements it, runs tests, commits, and exits. The shell runner (`run.sh`) re-invokes until all tasks are done or progress stalls.
 
 ## How It Works
 
 1. `run.sh` reads the tasks file and counts pending tasks
-2. It renders `PROMPT.md` with paths to all Calmecac workspace files
+2. It renders `01-vera.md` with paths to all Calmecac workspace files
 3. It pipes the rendered prompt to `claude -p` (headless mode)
-4. Ralph (the agent) reads the workspace, selects a task, implements it, tests it, commits
+4. Vera (the agent) reads the workspace, selects a task, implements it, tests it, commits
 5. `run.sh` checks if progress was made; if yes, loops; if stalled twice, stops
 
 ## Prerequisites
 
 - [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) installed and authenticated
 - `jq` installed (for task counting)
-- A completed Calmecac workspace (run `/calmecac` first)
+- A completed Calmecac workspace (run `/plan` first)
 
 ## Directory Layout
 
 ```
-.claude/ralph/
+.claude/skills/build/
 ├── run.sh                 # Loop orchestrator
-├── PROMPT.md              # Agent system prompt
+├── 01-vera.md             # Agent system prompt (Vera Rubin persona)
 ├── README.md              # This file
 ├── CLAUDE.md              # Quick-reference for Claude sessions
 └── logs/                  # Auto-created per run
-    └── <workspace-name>/ralph_run_N.log
+    └── <workspace-name>/vera_run_N.log
 ```
 
 ## Usage
 
 Via Justfile (recommended):
 ```bash
-just ralph <model> <effort>
+just build <model> <effort>
 ```
 
 Or directly:
 ```bash
-.claude/ralph/run.sh path/to/calmecac-workspace <model> <effort>
+.claude/skills/build/run.sh path/to/calmecac-workspace <model> <effort>
 ```
 
 | Arg | Options |
@@ -49,11 +49,11 @@ Or directly:
 **Example:**
 
 ```bash
-just ralph sonnet high
-.claude/ralph/run.sh /Users/me/dev/myapp/calmecac-auth sonnet high
+just build sonnet high
+.claude/skills/build/run.sh /Users/me/dev/myapp/calmecac-auth sonnet high
 ```
 
-## What Ralph Reads
+## What Vera Reads
 
 From the Calmecac workspace:
 

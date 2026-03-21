@@ -1,5 +1,5 @@
 ---
-name: calmecac
+name: plan
 description: >
   Use this skill for planning and decomposing complex greenfield coding tasks
   that need structured thinking before implementation. Triggers
@@ -186,12 +186,12 @@ Boundary conditions are FROZEN after Socrates. They describe the world as it is,
 
 When the human approves Phase 6, the Calmecac is complete.
 
-1. Write the absolute workspace path to `{project-location}/.calmecac-last` so Ralph can find it automatically.
+1. Write the absolute workspace path to `{project-location}/.plan-last` so Vera can find it automatically.
 2. Announce completion:
 
-> The Calmecac is complete. Your task list is ready at `{project-location}/calmecac-{task-name}/06-alkhwarizmi/tasks.jsonl`.
+> The plan is complete. Your task list is ready at `{project-location}/calmecac-{task-name}/06-alkhwarizmi/tasks.jsonl`.
 >
 > To build the project, run:
 > ```
-> just ralph <model> <effort>
+> just build <model> <effort>
 > ```

@@ -1,21 +1,21 @@
-# Ralph — Autonomous Task Loop
+# Vera — Autonomous Task Loop
 
-Ralph is a loop-based autonomous agent that executes task lists produced by Calmecac. The shell runner (`run.sh`) re-invokes until all tasks are done or no progress is detected.
+Vera is a loop-based autonomous agent that executes task lists produced by the plan skill. The shell runner (`run.sh`) re-invokes until all tasks are done or no progress is detected.
 
 ## Pipeline
 
 ```
-/calmecac (skill)           →  ralph run.sh
+/plan (skill)               →  vera run.sh
  six-phase planning             executes tasks via loop
  produces workspace              one task per invocation
 ```
 
 | Step | What | Produces |
 |------|------|----------|
-| 1 | `just calmecac <model> <effort>` | `{project}/calmecac-{name}/` workspace with specs, requirements, tests, tasks |
-| 2 | `just ralph <model> <effort>` | Implementation code at `{project}/`, one git commit per task |
+| 1 | `just plan <model> <effort>` | `{project}/calmecac-{name}/` workspace with specs, requirements, tests, tasks |
+| 2 | `just build <model> <effort>` | Implementation code at `{project}/`, one git commit per task |
 
-## Calmecac workspace structure (Ralph's input)
+## Calmecac workspace structure (Vera's input)
 
 ```
 {project}/calmecac-{name}/
@@ -37,12 +37,12 @@ Ralph is a loop-based autonomous agent that executes task lists produced by Calm
 ## Invocation
 
 ```bash
-just ralph <model> <effort>
+just build <model> <effort>
 ```
 
 Or directly:
 ```bash
-.claude/ralph/run.sh {project}/calmecac-{name} <model> <effort>
+.claude/skills/build/run.sh {project}/calmecac-{name} <model> <effort>
 ```
 
 - **model**: `sonnet`, `opus`, `haiku`, or full model ID

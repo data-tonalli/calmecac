@@ -1,28 +1,28 @@
-# Calmecac + Ralph: plan, then build.
+# Calmecac: plan, then build.
 #
 # Models:  sonnet (default, balanced), opus (strongest), haiku (fastest/cheapest)
 # Effort:  low, medium, high
 #
 # Examples:
-#   just calmecac sonnet high
-#   just ralph sonnet high
-#   just ralph opus high /Users/me/dev/myapp/calmecac-auth
+#   just plan sonnet high
+#   just build sonnet high
+#   just build opus high /Users/me/dev/myapp/calmecac-auth
 
 # Plan a new project with Calmecac
-calmecac model effort:
-    CLAUDE_CODE_EFFORT_LEVEL={{effort}} claude --model {{model}} "/calmecac"
+plan model effort:
+    CLAUDE_CODE_EFFORT_LEVEL={{effort}} claude --model {{model}} "/plan"
 
-# Build the project with Ralph
-ralph model effort workspace="":
+# Build the project with Vera
+build model effort workspace="":
     #!/usr/bin/env bash
     set -euo pipefail
     ws="{{workspace}}"
-    if [[ -z "$ws" && -f .calmecac-last ]]; then
-        ws=$(cat .calmecac-last)
+    if [[ -z "$ws" && -f .plan-last ]]; then
+        ws=$(cat .plan-last)
     fi
     if [[ -z "$ws" ]]; then
-        echo "No workspace found. Run 'just calmecac' first, or specify:"
-        echo "  just ralph {{model}} {{effort}} /path/to/calmecac-workspace"
+        echo "No workspace found. Run 'just plan' first, or specify:"
+        echo "  just build {{model}} {{effort}} /path/to/calmecac-workspace"
         exit 1
     fi
-    .claude/ralph/run.sh "$ws" "{{model}}" "{{effort}}"
+    .claude/skills/build/run.sh "$ws" "{{model}}" "{{effort}}"

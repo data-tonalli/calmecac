@@ -2,17 +2,17 @@
 set -euo pipefail
 
 if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <calmecac-workspace> [model] [effort]"
+  echo "Usage: $0 <plan-workspace> [model] [effort]"
   echo ""
-  echo "  calmecac-workspace: path to a Calmecac workspace directory"
-  echo "                      (e.g., /Users/you/dev/myapp/calmecac-auth)"
+  echo "  plan-workspace: path to a Calmecac workspace directory"
+  echo "                  (e.g., /Users/you/dev/myapp/calmecac-auth)"
   echo "  model:  sonnet (default), opus, haiku — or full IDs like claude-sonnet-4-6"
   echo "  effort: low, medium, high (default: high)"
   exit 1
 fi
 
 WORKSPACE_DIR="$(cd "$1" && pwd)"
-PROMPT_FILE="$(dirname "$0")/PROMPT.md"
+PROMPT_FILE="$(dirname "$0")/01-vera.md"
 
 # Project directory is the parent of the workspace
 PROJECT_DIR="$(dirname "$WORKSPACE_DIR")"
@@ -80,7 +80,7 @@ while (( run <= MAX_RUNS )); do
 
   prev_pending="$current_pending"
 
-  echo "=== Ralph run #$run ($current_pending pending, model: $MODEL, effort: $EFFORT) ==="
+  echo "=== Vera run #$run ($current_pending pending, model: $MODEL, effort: $EFFORT) ==="
 
   # Inject all Calmecac workspace paths into the prompt
   RENDERED_PROMPT=$(sed \
@@ -91,7 +91,7 @@ while (( run <= MAX_RUNS )); do
     -e "s|__BOUNDARY_CONDITIONS_FILE__|${BOUNDARY_CONDITIONS_FILE}|g" \
     "$PROMPT_FILE")
 
-  LOG_FILE="${LOG_DIR}/ralph_run_${run}.log"
+  LOG_FILE="${LOG_DIR}/vera_run_${run}.log"
   # Run claude from the project directory so git operations happen in the right repo
   echo "$RENDERED_PROMPT" | (cd "$PROJECT_DIR" && claude -p --model "$MODEL" --dangerously-skip-permissions --verbose) 2>&1 | tee "$LOG_FILE"
 

@@ -1,9 +1,9 @@
 # macOS
 .DS_Store
 
-# Ralph logs
-ralph/logs/
+# Vera logs
+.claude/skills/build/logs/
 
 # Calmecac workspaces (user-generated, not part of template)
 calmecac-*/
-.calmecac-last
+.plan-last
