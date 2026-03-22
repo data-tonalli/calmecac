@@ -1,4 +1,4 @@
-# Welcome to the Calmecac. Bring your idea. The teachers are waiting.
+# Bring your idea to the calmecac.
 
 CALMECAC is named after the Aztec institution of higher learning. Its philosophy: think slowly and plan deliberately, so that coding can happen fast.
 
